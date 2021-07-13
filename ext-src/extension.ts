@@ -2,9 +2,12 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-
 	context.subscriptions.push(vscode.commands.registerCommand('react-webview.start', () => {
-		ReactPanel.createOrShow(context.extensionPath);
+		try {
+			ReactPanel.createOrShow(context.extensionPath);
+		} catch (error) {
+			console.error(error);
+		}
 	}));
 }
 
@@ -48,8 +51,8 @@ class ReactPanel {
 				vscode.Uri.file(path.join(this._extensionPath, 'build'))
 			]
 		});
-		
-		// Set the webview's initial html content 
+
+		// Set the webview's initial html content
 		this._panel.webview.html = this._getHtmlForWebview();
 
 		// Listen for when the panel is disposed
@@ -87,13 +90,9 @@ class ReactPanel {
 	}
 
 	private _getHtmlForWebview() {
-		const manifest = require(path.join(this._extensionPath, 'build', 'asset-manifest.json'));
-		const mainScript = manifest['main.js'];
-		const mainStyle = manifest['main.css'];
-
-		const scriptPathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'build', mainScript));
+		const scriptPathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'build', 'main.js'));
 		const scriptUri = scriptPathOnDisk.with({ scheme: 'vscode-resource' });
-		const stylePathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'build', mainStyle));
+		const stylePathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'build', 'main.css'));
 		const styleUri = stylePathOnDisk.with({ scheme: 'vscode-resource' });
 
 		// Use a nonce to whitelist which scripts can be run
@@ -114,7 +113,7 @@ class ReactPanel {
 			<body>
 				<noscript>You need to enable JavaScript to run this app.</noscript>
 				<div id="root"></div>
-				
+
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
 			</html>`;

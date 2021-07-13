@@ -19,30 +19,32 @@
     ]
   },
   "dependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "terser": "3.16.0",
-    "vscode": "^1.1.17"
+    "@fullhuman/postcss-purgecss": "^4.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "tachyons": "^4.12.0",
+    "terser": "5.7.1",
+    "vscode": "^1.1.37"
   },
   "resolutions": {
     "terser": "3.14.1"
   },
   "scripts": {
-    "vscode:prepublish": "./scripts/build-non-split.js && tsc -p tsconfig.extension.json",
+    "vscode:prepublish": "node ./scripts/esbuild.js",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "start": "react-scripts start",
-    "build": "./scripts/build-non-split.js && tsc -p tsconfig.extension.json",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build": "node ./scripts/esbuild.js",
+    "watch": "node ./scripts/esbuild.js --watch",
+    "start": "node ./scripts/esbuild.js --watch --expose"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.13",
-    "@types/node": "^10.1.2",
-    "@types/react": "^16.3.14",
-    "@types/react-dom": "^16.0.5",
-    "react-scripts": "^2.1.3",
-    "rewire": "^4.0.1",
-    "typescript": "^3.3.1"
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.3.1",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@web/dev-server": "^0.1.18",
+    "esbuild": "^0.12.15",
+    "fs-extra": "^10.0.0",
+    "typescript": "^4.3.5"
   },
   "browserslist": [
     ">0.2%",

@@ -4,7 +4,7 @@
   "engines": {
     "vscode": "^1.23.0"
   },
-  "publisher": "rebornix",
+  "publisher": "react-webview-user",
   "activationEvents": [
     "onCommand:react-webview.start"
   ],
